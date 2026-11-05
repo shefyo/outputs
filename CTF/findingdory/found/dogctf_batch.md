@@ -18,5 +18,8 @@
 | `03NetDog` | `/proc/net/tcp` показал слушающий порт 4644; `nc 127.0.0.1 4644 > Net_dog.png` сохранил PNG | [`Net_dog.png`](Net_dog.png) |
 | `03SpyDog` | В `/home/dog/Doguments/cat_tracker` команда `git fsck --no-reflogs --unreachable` нашла удалённый коммит `4936471`; `git show 4936471:cat_cam/frame_0044.png > Spy_dog.png` извлекла кадр | [`Spy_dog.png`](Spy_dog.png) |
 | `03ChainedDog` | В `/home/dog/Downloads/start` первая ссылка `Next:`. Каждый следующий файл содержит `Next:` и бинарное `Content:`. По ссылкам пройдено 272 файла до `end`, поля `Content:` соединены в PNG | [`Chained_dog.png`](Chained_dog.png) |
+| `02ShyDog` | Среди 1000 файлов в `/home/ctf/go_to_opt/Videos/Shy dog` проверена сигнатура PNG; настоящий файл — `IMG_Maybe_Dog_2a705290.png` | [`Shy_dog.png`](Shy_dog.png) |
+| `02SpitoonDog` | `zcat /usr/share/man/man1/spitoon.1.gz` раскрыл две реплики. В `/home/ctf/go_to_opt/Programs/spitoon` введены `How tough am I? How tough am I?! I ran 227 of linux programs this lab`, затем `Without 227 errors` и `Ctrl+C` без Enter. Программа напечатала `/regular_paw_storage/e230d0d6477947df/Spitoon_dog.png` | [`Spitoon_dog.png`](Spitoon_dog.png) |
+| `03RestoreDog` | `/home/ctf/go_to_opt/Doguments/crashed.txt` содержал ключ для Vim swap. `vim -r crashed.txt` восстановил зашифрованную запись, открытие её в Vim с ключом `b92aa0f97ebaed0d` показало `/regular_paw_storage/yjxgcaf/Restore_dog.png` | [`Restore_dog.png`](Restore_dog.png) |
 
 Файлы из `/regular_paw_storage` были скачаны по точным путям через SFTP. Часть каталога закрыта для просмотра списком, поэтому `find` там не показывает все изображения. Для отправки боту каждый PNG нужно передавать **как файл**, предварительно открыв соответствующее задание командой `/challenge <имя>`.
