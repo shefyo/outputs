@@ -1,11 +1,11 @@
-# CTF `discodetective` — отчёт
+# CTF `discodetective` — report
 
-**Инстанс:** `findingnemo` (`threadctf`).
-**Задание:** `discodetective`.
+**Instance:** `findingnemo` (`threadctf`).
+**Challenge:** `discodetective`.
 
-## Где находится игра
+## Locating the game
 
-В контейнере `/home/ctf` нет файлов задания. Процесс `python3 /root/discodetective.py` слушает TCP-порт `9999` на `127.0.0.1`. Найти его помогли:
+The container's `/home/ctf` directory contains no challenge files. The `python3 /root/discodetective.py` process listens on TCP port `9999` at `127.0.0.1`. These commands helped locate it:
 
 ```bash
 ps -ef
@@ -13,37 +13,37 @@ cat /proc/net/tcp
 nc 127.0.0.1 9999
 ```
 
-Порт `270F` в `/proc/net/tcp` — это `9999` в десятичной системе. Для прохождения использовался локальный [`discodetective_client.py`](discodetective_client.py), который автоматически отвечал на кратковременные `!!THOUGHT-STRIKE`:
+Port `270F` in `/proc/net/tcp` is `9999` in decimal. We used the local [`discodetective_client.py`](discodetective_client.py) to complete the challenge; it automatically responded to time-limited `!!THOUGHT-STRIKE` prompts:
 
 ```bash
 python3 /home/ctf/discodetective_client.py
 ```
 
-При каждом новом подключении меняются подозреваемые, навыки, варианты и факты. Поэтому приведённые ниже номера вариантов и фактов относятся **только к зафиксированному успешному запуску**.
+The suspects, skills, choices, and facts change with each new connection. Therefore, the choice and fact numbers below apply **only to the recorded successful run**.
 
-## Ход расследования
+## Investigation steps
 
-Навыки: `LOGIC=2 EMPATHY=6 DRAMA=4 VOLITION=4 INLAND_EMPIRE=6 PHYSICAL=6 RHETORIC=4 SUGGESTION=4`. Маршрут: `war-room → pipeline → founder → channel → kitchen → review`.
+Skills: `LOGIC=2 EMPATHY=6 DRAMA=4 VOLITION=4 INLAND_EMPIRE=6 PHYSICAL=6 RHETORIC=4 SUGGESTION=4`. Route: `war-room → pipeline → founder → channel → kitchen → review`.
 
-| Комната | Выбор | Результат |
+| Room | Choice | Result |
 |---|---|---|
-| `war-room` | `2` — найти деплой перед отрицательным остатком | `f1`: деплой в **03:05** (`deploy-time`) |
-| `pipeline` | `2` — спросить HELM-9, кто запросил деплой | `f2`: запрос пришёл из incident channel (`deploy-path=channel`) |
-| `founder` | `1` — прочитать записки у монитора | Открыт дополнительный вопрос в `kitchen` (`!!UNLOCK scene=kitchen`) |
-| `channel` | `4` — спросить, кто может отправить деплой из канала | `f3`: администраторы канала — Teodor Lindqvist и Nikolai Brandt (`channel-admins`) |
-| `kitchen` | `4` — спросить, о чём шептались за карточным столом | `f4`: журнал выходов (`badge-log`); `f5`: владельцы пропусков (`badge-map`) |
+| `war-room` | `2` — find the deployment preceding the negative balance | `f1`: deployment at **03:05** (`deploy-time`) |
+| `pipeline` | `2` — ask HELM-9 who requested the deployment | `f2`: the request came from the incident channel (`deploy-path=channel`) |
+| `founder` | `1` — read the notes by the monitor | An additional question was unlocked in `kitchen` (`!!UNLOCK scene=kitchen`) |
+| `channel` | `4` — ask who can trigger a deployment from the channel | `f3`: the channel administrators are Teodor Lindqvist and Nikolai Brandt (`channel-admins`) |
+| `kitchen` | `4` — ask what people were whispering about at the card table | `f4`: exit log (`badge-log`); `f5`: badge owners (`badge-map`) |
 
-В журнале `f4` пропуск `9303` вышел в **02:17**, а `5488` — в **03:17**. Карта `f5` связывает `9303` с Nikolai Brandt и `5488` с Teodor Lindqvist.
+In log `f4`, badge `9303` was used to exit at **02:17**, and `5488` at **03:17**. Map `f5` associates `9303` with Nikolai Brandt and `5488` with Teodor Lindqvist.
 
-## Вывод и доказательство
+## Conclusion and proof
 
-По `f2` и `f3` отправить деплой могли только администраторы incident channel: Teodor или Nikolai. Деплой был в **03:05** (`f1`). Nikolai вышел в **02:17**, до деплоя (`f4`, `f5`), поэтому не мог отправить его. Teodor вышел позже, в **03:17**. В review игра показала `closable=1`.
+According to `f2` and `f3`, only the incident channel administrators, Teodor or Nikolai, could have triggered the deployment. The deployment occurred at **03:05** (`f1`). Nikolai left at **02:17**, before the deployment (`f4`, `f5`), so he could not have triggered it. Teodor left later, at **03:17**. During review, the game displayed `closable=1`.
 
-Команды для зафиксированного запуска:
+Commands for the recorded run:
 
 ```text
 ACCUSE 4
 PROOF f1 f2 f3 f4 f5
 ```
 
-Номер `4` соответствовал Teodor Lindqvist. Пользователь сообщил, что задание решено; точный текст флага и ответ бота в отчёт не включены, поскольку они не были переданы в переписке.
+Number `4` corresponded to Teodor Lindqvist. The user reported that the challenge was solved; the exact flag text and the bot's response are not included in this report because they were not provided in the conversation.

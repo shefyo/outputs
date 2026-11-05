@@ -1,12 +1,12 @@
-# CTF `princess` — отчёт
+# CTF `princess` — report
 
-**Инстанс:** `findingnemo` (`threadctf`).
-**Задание:** `princess`.
-**Среда:** учебный Linux-контейнер, пользователь `ctf`.
+**Instance:** `findingnemo` (`threadctf`).
+**Challenge:** `princess`.
+**Environment:** a training Linux container, user `ctf`.
 
-## Поиск
+## Discovery
 
-Домашняя папка `/home/ctf` изначально содержала только настройки оболочки. Объекты задания нашлись среди процессов:
+The home directory `/home/ctf` initially contained only shell configuration files. The challenge entities were found among the processes:
 
 ```bash
 pwd
@@ -15,9 +15,9 @@ ls -la /
 ps -ef
 ```
 
-В списке процессов `PID 1` — `/root/forest`. Его дочерние процессы — кабины. У каждой кабины есть дочерний процесс принцессы. Мёртвая принцесса видна как `[princess_name] <defunct>`; её состояние — `Z` (зомби). Поле `PPID` указывает на PID кабины.
+In the process list, `PID 1` is `/root/forest`. Its child processes are cabins. Each cabin has a princess child process. A dead princess appears as `[princess_name] <defunct>`; its state is `Z` (zombie). The `PPID` field points to the cabin's PID.
 
-Пример из наблюдавшегося вывода:
+An example from the observed output:
 
 ```text
 PID  PPID  CMD
@@ -25,7 +25,7 @@ PID  PPID  CMD
 20   10    [princess_thorn] <defunct>
 ```
 
-Здесь подходящая кабина имеет PID `10`. Номера процессов меняются, поэтому перед каждым действием их нужно находить заново:
+Here, the relevant cabin has PID `10`. Process IDs change, so they must be looked up again before each action:
 
 ```bash
 ps -eo pid=,ppid=,stat=,comm= |
@@ -33,9 +33,9 @@ ps -eo pid=,ppid=,stat=,comm= |
     sort -nu
 ```
 
-## Решение
+## Solution
 
-Следующий цикл повторно читает список процессов, проверяет, что найденный родитель всё ещё является кабиной с принцессой-зомби, и отправляет сигнал `TERM` только такому родителю. Он завершается после 50 успешных отправок сигнала.
+The following loop rereads the process list, verifies that the identified parent is still a cabin with a zombie princess, and sends `TERM` only to that parent. It stops after 50 successful signal sends.
 
 ```bash
 count=0
@@ -53,7 +53,7 @@ while [ "$count" -lt 50 ]; do
         if kill -TERM "$cabin" 2>/dev/null; then
             count=$((count + 1))
             found=1
-            echo "Разрушено: $count/50 (PID $cabin)"
+            echo "Destroyed: $count/50 (PID $cabin)"
         fi
 
         [ "$count" -ge 50 ] && break
@@ -68,10 +68,10 @@ while [ "$count" -lt 50 ]; do
 done
 ```
 
-Контейнер подтвердил результат сообщением:
+The container confirmed the result with this message:
 
 > The forest falls silent. 50 cursed cabins lie in ruin, and
 > the story is finally over. Your reward waits in your home
 > directory.
 
-**Место награды:** `/home/ctf`. Имя файла и сам текст флага в сохранённом выводе отсутствуют, поэтому здесь они не приводятся. По сообщению пользователя задание решено.
+**Reward location:** `/home/ctf`. The filename and the flag text are absent from the saved output, so they are not included here. According to the user, the challenge is solved.

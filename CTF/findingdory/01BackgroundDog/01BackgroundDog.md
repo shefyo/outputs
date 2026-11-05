@@ -1,15 +1,15 @@
 # Bash CTF: `01BackgroundDog`
 
-**Инстанс:** `findingdory` (`dogctf`).
-**Результат:** бот ответил `✅ Flag accepted for '01BackgroundDog'.`
+**Instance:** `findingdory` (`dogctf`).
+**Result:** the bot replied `✅ Flag accepted for '01BackgroundDog'.`
 
-После `/challenge 01BackgroundDog` подключились к контейнеру по SSH. При входе оболочка показала остановленное фоновое задание:
+After `/challenge 01BackgroundDog`, we connected to the container over SSH. On login, the shell displayed a stopped background job:
 
 ```text
 [1]+ Stopped /usr/local/bin/background_dog /tmp/bgdog
 ```
 
-Проверка состояния:
+Checking the state:
 
 ```bash
 jobs -l
@@ -17,23 +17,23 @@ ls -la /tmp/bgdog
 ps -ef | grep '[b]ackground_dog'
 ```
 
-Команда `jobs -l` показала остановленный процесс `/usr/local/bin/background_dog`; `/tmp/bgdog` не существовал. Возобновили задание на переднем плане:
+The `jobs -l` command showed the stopped `/usr/local/bin/background_dog` process; `/tmp/bgdog` did not exist. We resumed the job in the foreground:
 
 ```bash
 fg %1
 ```
 
-Программа напечатала путь к изображению: `/regular_paw_storage/ecd6c7b966d6f4f6/Background_dog.png`. Файл проверили:
+The program printed the image path: `/regular_paw_storage/ecd6c7b966d6f4f6/Background_dog.png`. We checked the file:
 
 ```bash
 ls -l /regular_paw_storage/ecd6c7b966d6f4f6/Background_dog.png
 file /regular_paw_storage/ecd6c7b966d6f4f6/Background_dog.png
 ```
 
-Результат проверки: PNG, 300 × 150, 123251 байт. Из **локальной Ubuntu**, вне SSH-сессии, скачали файл:
+The check identified a PNG, 300 × 150, 123251 bytes. From **the local Ubuntu system**, outside the SSH session, we downloaded the file:
 
 ```bash
 scp o.shefner-dog@osctf.nnk.moe:/regular_paw_storage/ecd6c7b966d6f4f6/Background_dog.png .
 ```
 
-Изображение отправили боту как файл, после чего он подтвердил принятие флага. Копия PNG сохранена рядом с отчётом как [`Background_dog.png`](Background_dog.png).
+We sent the image to the bot as a file, and it confirmed that the flag was accepted. A copy of the PNG is saved alongside this report as [`Background_dog.png`](Background_dog.png).

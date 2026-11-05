@@ -1,20 +1,20 @@
-# `princess2` — решение на C
+# `princess2` — C solution
 
-Контейнер: `o.shefner-princess2@osctf.nnk.moe`. При входе вместо обычной оболочки запускается `story-shell`, которая разрешает только `gcc`, редакторы, `cat`, `rm` и собственные бинарные файлы.
+Container: `o.shefner-princess2@osctf.nnk.moe`. On login, `story-shell` runs instead of a regular shell and allows only `gcc`, editors, `cat`, `rm`, and user-built binaries.
 
-Исследование процессов через C показало: у живых и мёртвых принцесс имена `princess_*`. Мёртвая принцесса имеет состояние `Z` в `/proc/<pid>/status`; поле `PPid` указывает на её кабину. Имя кабины нужно читать из `/proc/<PPid>/comm`: оно может быть `cabin_by_lake` или, например, `the_fog_cabin`, поэтому проверяется вхождение `cabin`, а не только начало строки.
+Inspecting the processes using C showed that both living and dead princesses have names matching `princess_*`. A dead princess has state `Z` in `/proc/<pid>/status`; the `PPid` field points to her cabin. The cabin's name must be read from `/proc/<PPid>/comm`: it may be `cabin_by_lake` or, for example, `the_fog_cabin`, so the check looks for `cabin` anywhere in the name, not just at the beginning.
 
-[Исходник](princess2_blade.c) циклически обходит `/proc`, подтверждает состояние `Z`, имя принцессы и имя родителя, затем отправляет `SIGTERM` только такой кабине. После каждой серии он проверяет `/home/ctf` на появление небольшого файла с наградой.
+The [source code](princess2_blade.c) repeatedly scans `/proc`, verifies the `Z` state, the princess's name, and the parent's name, then sends `SIGTERM` only to a matching cabin. After each pass, it checks `/home/ctf` for a small reward file.
 
-Исходник можно передать прямо в `gcc` через стандартный ввод. В `story-shell`:
+The source can be passed directly to `gcc` through standard input. In `story-shell`:
 
 ```text
 gcc -x c -o blade -
 ```
 
-Затем вставить содержимое `princess2_blade.c`, нажать `Ctrl+D` на новой строке и запустить `./blade`. Для длительного ожидания используется [обёртка](princess2_daemon.c): она делает `fork`, `setsid`, перенаправляет вывод в `/home/ctf/princess2.log` и запускает `blade`. Её сборка тем же способом, затем `./daemon`; прогресс можно читать разрешённой командой `cat princess2.log`.
+Then paste the contents of `princess2_blade.c`, press `Ctrl+D` on a new line, and run `./blade`. For an extended wait, use the [wrapper](princess2_daemon.c): it calls `fork` and `setsid`, redirects output to `/home/ctf/princess2.log`, and launches `blade`. Compile it the same way, then run `./daemon`; progress can be read with the permitted command `cat princess2.log`.
 
-Первый короткий запуск распознавал только имена кабин, начинающиеся с `cabin`; исправленная версия учитывает и `the_fog_cabin` и похожие имена. В сумме несколько коротких запусков и один фоновый уничтожили 100 кабин с принцессами в состоянии `Z`. Программа заметила награду в `/home/ctf/flag.txt`; отдельная проверка `cat flag.txt` подтвердила:
+The first short run recognized only cabin names beginning with `cabin`; the corrected version also handles `the_fog_cabin` and similar names. In total, several short runs and one background run destroyed 100 cabins containing princesses in state `Z`. The program detected the reward in `/home/ctf/flag.txt`; a separate `cat flag.txt` check confirmed:
 
 ```text
 threadctf{i_hOPE_YOu_can_C_cLEarLy_N0W}
