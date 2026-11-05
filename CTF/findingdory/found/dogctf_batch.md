@@ -12,6 +12,7 @@
 | `01PoweredDog` | `/opt/README.md` сообщил путь `/regular_paw_storage/a6a929afb8ed8396/powered_dog.png` | [`powered_dog.png`](powered_dog.png) |
 | `01TailheadedDog` | Начало `/home/ctf/go_to_opt/Downloads/dog.log` содержало `/regular_paw_storage/de0f94a4`, а конец — `b59d6d0b/tailheaded.png`; части пути соединены | [`tailheaded.png`](tailheaded.png) |
 | `02MuteDog` | Запуск `/home/ctf/go_to_opt/Programs/mute_dog` с раздельным выводом stdout/stderr дал путь `/regular_paw_storage/a9b79bbb777e2336/Mute_dog.png` | [`Mute_dog.png`](Mute_dog.png) |
+| `02PetDog` | В `/home/ctf/go_to_opt/Doguments/auto_petter` скрипт `./tools/assemble_mascot.sh` собрал из частей `frames/part1.bin`, `part2.bin`, `part3.bin` файл `mascot.png` | [`mascot.png`](mascot.png) |
 | `02RemDog` | `/home/ctf/go_to_opt/Doguments/secret_stuff/remember.txt` описывал имя из `D`, `O`, `G` длиной 4 с повтором одной буквы. Перебор имён через `stat` в закрытой для перечисления папке `super_secret` нашёл `OGOD.png` | [`OGOD.png`](OGOD.png) |
 | `02ScatteredDog` | В `Videos/Scattered dog` находились части `-50` … `49`; `for n in $(seq -50 49); do cat "$n"; done > Scattered_dog.png` | [`Scattered_dog.png`](Scattered_dog.png) |
 | `03UsedDog` | В `/home/dog/Used_dog.png` находился PNG | [`Used_dog.png`](Used_dog.png) |
