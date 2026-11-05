@@ -1,6 +1,6 @@
 # `findingdory`: найденные изображения
 
-Этот отчёт фиксирует находки в общем контейнере `o.shefner-dog@osctf.nnk.moe`. Изображения сохранены рядом с отчётом. На момент записи бот подтвердил `01BackgroundDog` и `01CatDog`; для остальных PNG подтверждение пока не проверено.
+Этот отчёт фиксирует находки в общем контейнере `o.shefner-dog@osctf.nnk.moe`. Изображения сохранены рядом с отчётом. Подтверждения ботом меняются по мере отправки файлов; этот документ фиксирует способ получения PNG.
 
 | Задание | Команды и источник | Файл |
 |---|---|---|
@@ -15,5 +15,8 @@
 | `02RemDog` | `/home/ctf/go_to_opt/Doguments/secret_stuff/remember.txt` описывал имя из `D`, `O`, `G` длиной 4 с повтором одной буквы. Перебор имён через `stat` в закрытой для перечисления папке `super_secret` нашёл `OGOD.png` | [`OGOD.png`](OGOD.png) |
 | `02ScatteredDog` | В `Videos/Scattered dog` находились части `-50` … `49`; `for n in $(seq -50 49); do cat "$n"; done > Scattered_dog.png` | [`Scattered_dog.png`](Scattered_dog.png) |
 | `03UsedDog` | В `/home/dog/Used_dog.png` находился PNG | [`Used_dog.png`](Used_dog.png) |
+| `03NetDog` | `/proc/net/tcp` показал слушающий порт 4644; `nc 127.0.0.1 4644 > Net_dog.png` сохранил PNG | [`Net_dog.png`](Net_dog.png) |
+| `03SpyDog` | В `/home/dog/Doguments/cat_tracker` команда `git fsck --no-reflogs --unreachable` нашла удалённый коммит `4936471`; `git show 4936471:cat_cam/frame_0044.png > Spy_dog.png` извлекла кадр | [`Spy_dog.png`](Spy_dog.png) |
+| `03ChainedDog` | В `/home/dog/Downloads/start` первая ссылка `Next:`. Каждый следующий файл содержит `Next:` и бинарное `Content:`. По ссылкам пройдено 272 файла до `end`, поля `Content:` соединены в PNG | [`Chained_dog.png`](Chained_dog.png) |
 
 Файлы из `/regular_paw_storage` были скачаны по точным путям через SFTP. Часть каталога закрыта для просмотра списком, поэтому `find` там не показывает все изображения. Для отправки боту каждый PNG нужно передавать **как файл**, предварительно открыв соответствующее задание командой `/challenge <имя>`.
