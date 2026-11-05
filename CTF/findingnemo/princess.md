@@ -1,7 +1,7 @@
 # CTF `princess` — отчёт
 
-**Инстанс:** `findingnemo` (`threadctf`).  
-**Задание:** `princess`.  
+**Инстанс:** `findingnemo` (`threadctf`).
+**Задание:** `princess`.
 **Среда:** учебный Linux-контейнер, пользователь `ctf`.
 
 ## Поиск
