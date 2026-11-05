@@ -21,5 +21,6 @@
 | `02ShyDog` | Среди 1000 файлов в `/home/ctf/go_to_opt/Videos/Shy dog` проверена сигнатура PNG; настоящий файл — `IMG_Maybe_Dog_2a705290.png` | [`Shy_dog.png`](Shy_dog.png) |
 | `02SpitoonDog` | `zcat /usr/share/man/man1/spitoon.1.gz` раскрыл две реплики. В `/home/ctf/go_to_opt/Programs/spitoon` введены `How tough am I? How tough am I?! I ran 227 of linux programs this lab`, затем `Without 227 errors` и `Ctrl+C` без Enter. Программа напечатала `/regular_paw_storage/e230d0d6477947df/Spitoon_dog.png` | [`Spitoon_dog.png`](Spitoon_dog.png) |
 | `03RestoreDog` | `/home/ctf/go_to_opt/Doguments/crashed.txt` содержал ключ для Vim swap. `vim -r crashed.txt` восстановил зашифрованную запись, открытие её в Vim с ключом `b92aa0f97ebaed0d` показало `/regular_paw_storage/yjxgcaf/Restore_dog.png` | [`Restore_dog.png`](Restore_dog.png) |
+| `03AqueousDog` | В `/home/ctf/.config/fish/config.fish` найден base64-текст; `base64 -d` раскрыл `/regular_paw_storage/e523c9b09c90e881/Aqueous_dog.png` | [`Aqueous_dog.png`](Aqueous_dog.png) |
 
 Файлы из `/regular_paw_storage` были скачаны по точным путям через SFTP. Часть каталога закрыта для просмотра списком, поэтому `find` там не показывает все изображения. Для отправки боту каждый PNG нужно передавать **как файл**, предварительно открыв соответствующее задание командой `/challenge <имя>`.
